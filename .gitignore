@@ -1,0 +1,15 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Node (tests use globally installed playwright; no local deps expected)
+node_modules/
+package-lock.json
+
+# Exported profiles may contain personal data — never commit them
+applyflow-profile-*.json
+
+# Archives produced for distribution
+*.zip
