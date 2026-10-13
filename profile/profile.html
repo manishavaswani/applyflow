@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ApplyFlow — Profile Manager</title>
+<link rel="stylesheet" href="profile.css">
+<link rel="icon" href="../icons/icon-32.png">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <h1 class="site-title">ApplyFlow</h1>
+    <p class="site-tagline">Profile manager for academic job application auto-fill. Fill in once,
+      reuse across Workday, Interfolio, AcademicJobsOnline, LinkedIn, Indeed, and generic portals.</p>
+    <div class="privacy-note">
+      <strong>Privacy: your data never leaves this browser.</strong>
+      <span>Everything on this page — including uploaded documents — is stored only in
+      <code>chrome.storage.local</code> on this device. ApplyFlow has no server, no account,
+      no analytics, and makes no network requests with your data.</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tab-bar">
+  <div class="wrap tab-bar-inner" role="tablist">
+    <button class="tab-btn active" data-tab="personal" role="tab">Personal</button>
+    <button class="tab-btn" data-tab="education" role="tab">Education &amp; Position</button>
+    <button class="tab-btn" data-tab="references" role="tab">References</button>
+    <button class="tab-btn" data-tab="eeo" role="tab">EEO Self-ID (optional)</button>
+    <button class="tab-btn" data-tab="documents" role="tab">Documents</button>
+    <button class="tab-btn" data-tab="letters" role="tab">Cover Letters</button>
+    <button class="tab-btn" data-tab="backup" role="tab">Export / Import</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ Personal ============ -->
+  <section class="tab-panel active" id="tab-personal" role="tabpanel">
+    <h2>Personal information</h2>
+    <p class="panel-intro">Used for the name, contact, and link fields found on nearly every
+      application portal.</p>
+    <h3>Identity &amp; contact</h3>
+    <div class="form-grid" data-section="personal">
+      <div class="field"><label class="field-label" for="f-firstName">First name</label>
+        <input type="text" id="f-firstName" data-bind="personal.firstName" autocomplete="given-name"></div>
+      <div class="field"><label class="field-label" for="f-lastName">Last name</label>
+        <input type="text" id="f-lastName" data-bind="personal.lastName" autocomplete="family-name"></div>
+      <div class="field"><label class="field-label" for="f-email">Email</label>
+        <input type="email" id="f-email" data-bind="personal.email" autocomplete="email"></div>
+      <div class="field"><label class="field-label" for="f-phone">Phone</label>
+        <input type="tel" id="f-phone" data-bind="personal.phone" autocomplete="tel"></div>
+    </div>
+    <h3>Address</h3>
+    <div class="form-grid" data-section="personal">
+      <div class="field wide"><label class="field-label" for="f-address1">Street address</label>
+        <input type="text" id="f-address1" data-bind="personal.address1" autocomplete="street-address"></div>
+      <div class="field"><label class="field-label" for="f-address2">Address line 2</label>
+        <input type="text" id="f-address2" data-bind="personal.address2"></div>
+      <div class="field"><label class="field-label" for="f-city">City</label>
+        <input type="text" id="f-city" data-bind="personal.city"></div>
+      <div class="field"><label class="field-label" for="f-state">State / province</label>
+        <input type="text" id="f-state" data-bind="personal.state"></div>
+      <div class="field"><label class="field-label" for="f-zip">ZIP / postal code</label>
+        <input type="text" id="f-zip" data-bind="personal.zip" autocomplete="postal-code"></div>
+      <div class="field"><label class="field-label" for="f-country">Country</label>
+        <input type="text" id="f-country" data-bind="personal.country" autocomplete="country-name"></div>
+    </div>
+    <h3>Links</h3>
+    <div class="form-grid" data-section="personal">
+      <div class="field"><label class="field-label" for="f-homepage">Personal homepage</label>
+        <input type="url" id="f-homepage" data-bind="personal.homepage" placeholder="https://"></div>
+      <div class="field"><label class="field-label" for="f-scholar">Google Scholar profile</label>
+        <input type="url" id="f-scholar" data-bind="personal.scholar" placeholder="https://scholar.google.com/…"></div>
+      <div class="field"><label class="field-label" for="f-orcid">ORCID</label>
+        <input type="url" id="f-orcid" data-bind="personal.orcid" placeholder="https://orcid.org/0000-…"></div>
+      <div class="field"><label class="field-label" for="f-linkedin">LinkedIn profile</label>
+        <input type="url" id="f-linkedin" data-bind="personal.linkedin" placeholder="https://www.linkedin.com/in/…"></div>
+    </div>
+    <h3>Common application answers</h3>
+    <p class="hint">Reusable answers for free-text questions that appear on many portals.</p>
+    <div class="form-grid" data-section="application">
+      <div class="field"><label class="field-label" for="f-startDate">Available start date</label>
+        <input type="text" id="f-startDate" data-bind="application.startDate" placeholder="e.g. August 2026"></div>
+      <div class="field"><label class="field-label" for="f-salary">Salary expectation (optional)</label>
+        <input type="text" id="f-salary" data-bind="application.salary"></div>
+      <div class="field wide"><label class="field-label" for="f-referral">“How did you hear about this position?”</label>
+        <input type="text" id="f-referral" data-bind="application.referral" placeholder="e.g. HigherEdJobs"></div>
+      <div class="field wide"><label class="field-label" for="f-workAuth">Work authorization (optional)</label>
+        <input type="text" id="f-workAuth" data-bind="application.workAuthorization"
+          placeholder="e.g. US citizen — no sponsorship required"></div>
+    </div>
+  </section>
+
+  <!-- ============ Education & Position ============ -->
+  <section class="tab-panel" id="tab-education" role="tabpanel">
+    <h2>Education history</h2>
+    <p class="panel-intro">Most recent first — the top entry fills “highest degree”, “institution”,
+      and “graduation date” fields. Add as many entries as you need.</p>
+    <div id="education-list"></div>
+    <div class="button-row">
+      <button class="btn" id="add-education" type="button">Add education entry</button>
+    </div>
+    <h2>Current position</h2>
+    <div class="form-grid">
+      <div class="field"><label class="field-label" for="f-posTitle">Title</label>
+        <input type="text" id="f-posTitle" data-bind="position.title" placeholder="e.g. Assistant Professor"></div>
+      <div class="field"><label class="field-label" for="f-posDept">Department</label>
+        <input type="text" id="f-posDept" data-bind="position.department"></div>
+      <div class="field"><label class="field-label" for="f-posInst">Institution</label>
+        <input type="text" id="f-posInst" data-bind="position.institution"></div>
+      <div class="field"><label class="field-label" for="f-posStart">Start date</label>
+        <input type="text" id="f-posStart" data-bind="position.startDate" placeholder="e.g. July 2024"></div>
+    </div>
+  </section>
+
+  <!-- ============ References ============ -->
+  <section class="tab-panel" id="tab-references" role="tabpanel">
+    <h2>References</h2>
+    <p class="panel-intro">Reference-letter writers. Portals that ask for references typically want
+      name, title, email, and phone for each.</p>
+    <div id="reference-list"></div>
+    <div class="button-row">
+      <button class="btn" id="add-reference" type="button">Add reference</button>
+    </div>
+  </section>
+
+  <!-- ============ EEO ============ -->
+  <section class="tab-panel" id="tab-eeo" role="tabpanel">
+    <h2>EEO / demographic self-identification <span class="badge none">Optional</span></h2>
+    <p class="panel-intro">Voluntary self-ID answers common on US academic HR portals (Workday
+      especially). Leave blank and ApplyFlow will simply skip these questions. Answering is always
+      voluntary — and like everything else here, these answers never leave your browser.</p>
+    <div class="form-grid">
+      <div class="field"><label class="field-label" for="f-gender">Gender</label>
+        <input type="text" id="f-gender" data-bind="eeo.gender" placeholder="e.g. Woman"></div>
+      <div class="field"><label class="field-label" for="f-race">Race / ethnicity</label>
+        <input type="text" id="f-race" data-bind="eeo.race" placeholder="e.g. Asian"></div>
+      <div class="field"><label class="field-label" for="f-hispanic">Hispanic or Latino/a/x?</label>
+        <input type="text" id="f-hispanic" data-bind="eeo.hispanic" placeholder="e.g. No"></div>
+      <div class="field"><label class="field-label" for="f-veteran">Veteran status</label>
+        <input type="text" id="f-veteran" data-bind="eeo.veteran" placeholder="e.g. I am not a protected veteran"></div>
+      <div class="field"><label class="field-label" for="f-disability">Disability status</label>
+        <input type="text" id="f-disability" data-bind="eeo.disability" placeholder="e.g. No, I do not have a disability"></div>
+    </div>
+    <p class="hint">ApplyFlow matches these answers against dropdown options and radio-button labels
+      by text similarity, then highlights its choice for your review.</p>
+  </section>
+
+  <!-- ============ Documents ============ -->
+  <section class="tab-panel" id="tab-documents" role="tabpanel">
+    <h2>Document store</h2>
+    <p class="panel-intro">Upload each document once. The file is stored locally as base64 and its
+      text is extracted (best-effort for PDF) so the extension can inject the file into upload slots
+      or paste the text into statement textareas. Plain-text files (<code>.txt</code>/<code>.md</code>)
+      extract perfectly; for PDF/DOCX you can edit the extracted text below.</p>
+    <div id="document-list"></div>
+  </section>
+
+  <!-- ============ Cover letters ============ -->
+  <section class="tab-panel" id="tab-letters" role="tabpanel">
+    <h2>Cover letter templates</h2>
+    <p class="panel-intro">Named templates with placeholders — <code>{{position}}</code>,
+      <code>{{department}}</code>, <code>{{university}}</code>, <code>{{date}}</code> — that are
+      substituted from the detected job context when you fill a page or copy a letter. The first
+      template is the default. Optionally attach a PDF/DOCX version for upload slots.</p>
+    <div class="button-row">
+      <label class="field-label" for="letter-picker" style="align-self:center;margin:0">Template</label>
+      <select id="letter-picker" style="max-width:16rem"></select>
+      <button class="btn" id="add-letter" type="button">New template</button>
+      <button class="btn ghost" id="rename-letter" type="button">Rename</button>
+      <button class="btn danger" id="delete-letter" type="button">Delete</button>
+    </div>
+    <div class="ph-row" id="ph-row"></div>
+    <p class="hint" id="ph-warning"></p>
+    <div class="field">
+      <textarea id="letter-text" rows="14" placeholder="Dear Members of the Search Committee,&#10;&#10;I am writing to apply for the position of {{position}} in the {{department}} at {{university}}. …"></textarea>
+    </div>
+    <div class="button-row">
+      <input type="file" id="letter-file" accept=".pdf,.doc,.docx,.txt,.md">
+      <button class="btn small" id="remove-letter-file" type="button">Remove attached file</button>
+      <button class="btn ghost" id="preview-letter" type="button">Preview with sample context</button>
+    </div>
+    <div class="preview-box hidden" id="letter-preview"></div>
+  </section>
+
+  <!-- ============ Export / Import ============ -->
+  <section class="tab-panel" id="tab-backup" role="tabpanel">
+    <h2>Export / import</h2>
+    <p class="panel-intro">Your whole profile — including documents — exports to a single
+      <code>.json</code> file. Keep it somewhere safe; it contains everything you entered,
+      including EEO answers.</p>
+    <div class="button-row">
+      <button class="btn primary" id="export-btn" type="button">Export profile (.json)</button>
+      <label class="btn" for="import-file">Import profile (.json)</label>
+      <input type="file" id="import-file" accept=".json,application/json" class="hidden">
+      <button class="btn danger" id="clear-btn" type="button">Erase all data</button>
+    </div>
+    <p class="hint" id="storage-usage"></p>
+    <div class="banner hidden" id="import-error"></div>
+    <div class="banner ok hidden" id="import-ok"></div>
+  </section>
+
+  <div class="button-row">
+    <span class="save-status" id="save-status"></span>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ApplyFlow stores everything in your browser’s local extension storage. No servers,
+      no tracking, no remote code. Review-first design: the extension never submits a form for you.</p>
+  </div>
+</footer>
+
+<script src="../shared/schema.js"></script>
+<script src="../shared/templates.js"></script>
+<script src="../shared/match.js"></script>
+<script src="../shared/storage.js"></script>
+<script src="profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+/* ApplyFlow — content styles (page-level, not shadow DOM)
+   Highlight styling for auto-filled fields. Inline fallback styles are also
+   applied by content/autofill.js in case these rules lose a specificity war. */
+.applyflow-filled {
+  outline: 2px solid #a4543a !important;
+  background-color: #f3e4dc !important;
+  transition: background-color 0.2s ease;
+}
+
+.applyflow-manual-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #9a7b2d;
+  background: #f4edd8;
+  border: 1px solid #ddd3ac;
+  border-radius: 3px;
+}

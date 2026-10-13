@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ApplyFlow — Academic Job Application Auto-Fill</title>
+<meta name="description" content="ApplyFlow is a local-only browser extension that auto-fills academic job applications from a reusable profile. Review-first: it never submits forms and never transmits your data.">
+<style>
+  /* ApplyFlow docs theme — warm academic style matching the ScholarFix suite.
+     Self-contained so this file works standalone on GitHub Pages. */
+  :root {
+    --paper: #faf6ef;
+    --paper-raised: #fffdf8;
+    --ink: #35302a;
+    --ink-soft: #6b6357;
+    --line: #e2d9c9;
+    --accent: #a4543a;
+    --accent-dark: #84422e;
+    --accent-soft: #f3e4dc;
+    --ok: #5c7351;
+    --ok-soft: #e6ecdf;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: "SF Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.6; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; }
+  .site-header { border-bottom: 1px solid var(--line); background: var(--paper-raised); padding: 3rem 0 2.2rem; }
+  .site-title { font-family: var(--serif); font-weight: 600; font-size: 2.6rem; margin: 0 0 0.5rem; }
+  .site-title::after { content: ""; display: block; width: 3.2rem; height: 3px; background: var(--accent); margin-top: 0.6rem; }
+  .site-tagline { max-width: 62ch; color: var(--ink-soft); margin: 0.75rem 0 0; font-size: 1.02rem; }
+  h2 { font-family: var(--serif); font-size: 1.65rem; font-weight: 600; margin: 2.5rem 0 0.6rem; }
+  h3 { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; margin: 1.6rem 0 0.4rem; }
+  p, li { max-width: 75ch; }
+  code { font-family: var(--mono); font-size: 0.86em; background: var(--accent-soft); padding: 0.08em 0.35em; border-radius: 3px; }
+  a { color: var(--accent-dark); }
+  .privacy-note {
+    border: 1px solid var(--ok); border-left: 5px solid var(--ok);
+    background: var(--ok-soft); color: var(--ok); font-weight: 600;
+    padding: 0.9rem 1.1rem; border-radius: 4px; margin: 1.5rem 0 0; font-size: 0.95rem;
+  }
+  .privacy-note span { font-weight: 400; color: var(--ink-soft); }
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.9rem; margin-top: 1rem; }
+  .feature { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 4px; padding: 1rem 1.15rem; }
+  .feature h3 { margin-top: 0; color: var(--accent-dark); font-size: 1.08rem; }
+  .feature p { font-size: 0.92rem; margin: 0.3rem 0 0; color: var(--ink-soft); }
+  ol.steps { padding-left: 1.4rem; }
+  ol.steps li { margin-bottom: 0.55rem; }
+  .shot {
+    border: 1px dashed var(--line); border-radius: 4px; background: var(--paper-raised);
+    color: var(--ink-soft); font-size: 0.85rem; text-align: center;
+    padding: 2.2rem 1rem; margin: 1rem 0; font-style: italic;
+  }
+  .site-footer { border-top: 1px solid var(--line); background: var(--paper-raised); padding: 1.5rem 0 2.5rem; margin-top: 3rem; }
+  .site-footer p { color: var(--ink-soft); font-size: 0.85rem; margin: 0; }
+  @media (max-width: 640px) { .site-title { font-size: 2rem; } }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <h1 class="site-title">ApplyFlow</h1>
+    <p class="site-tagline">A local-only browser extension that auto-fills academic job
+      applications — Workday, Interfolio, AcademicJobsOnline, LinkedIn Easy Apply, Indeed, and
+      everything else via label heuristics — from a profile you maintain once.
+      <strong>Review-first by design: ApplyFlow never submits a form for you.</strong></p>
+    <div class="privacy-note">
+      Privacy: your data never leaves the browser.
+      <span>Your profile and documents live only in <code>chrome.storage.local</code> on your
+      device. No server, no account, no analytics, no remote code.</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h2>What it does</h2>
+  <div class="feature-grid">
+    <div class="feature">
+      <h3>One reusable profile</h3>
+      <p>Personal info, education history, current position, references, optional EEO self-ID
+        answers, and reusable answers to common free-text questions.</p>
+    </div>
+    <div class="feature">
+      <h3>Document store</h3>
+      <p>CV, research / teaching / diversity / personal statements, and transcripts stored locally
+        as base64 with extracted text — injected into file-upload slots or copied as text.</p>
+    </div>
+    <div class="feature">
+      <h3>Cover-letter templates</h3>
+      <p>Multiple named templates with <code>{{position}}</code>, <code>{{department}}</code>,
+        <code>{{university}}</code> placeholders, substituted from the detected job context.</p>
+    </div>
+    <div class="feature">
+      <h3>Site adapters + heuristics</h3>
+      <p>Specific adapters for Workday, Interfolio, AcademicJobsOnline, LinkedIn, and Indeed, plus
+        a generic matcher using labels, <code>name</code>, and <code>autocomplete</code> attributes.</p>
+    </div>
+    <div class="feature">
+      <h3>Floating panel</h3>
+      <p>“Fill this page” fills fields and highlights each one it touched, with an
+        “attach manually” badge for upload slots that block programmatic files.</p>
+    </div>
+    <div class="feature">
+      <h3>Never auto-submits</h3>
+      <p>There is no code path that submits a form. You review every highlighted field and press
+        the portal’s submit button yourself.</p>
+    </div>
+  </div>
+
+  <p><img src="screenshots/panel-filled.png" alt="ApplyFlow floating panel after filling a fixture application form" style="max-width:100%;border:1px solid var(--line);border-radius:4px;"></p>
+  <p><img src="screenshots/profile-documents.png" alt="ApplyFlow profile manager, document store tab" style="max-width:100%;border:1px solid var(--line);border-radius:4px;"></p>
+
+  <h2>Install (load unpacked)</h2>
+  <h3>Chrome / Edge / Brave / Arc</h3>
+  <ol class="steps">
+    <li>Download or clone the repository, then unzip it somewhere permanent
+      (the folder must stay in place — the browser loads it live).</li>
+    <li>Open <code>chrome://extensions</code>.</li>
+    <li>Enable <strong>Developer mode</strong> (toggle, top right).</li>
+    <li>Click <strong>Load unpacked</strong> and select the <code>applyflow</code> folder
+      (the one containing <code>manifest.json</code>).</li>
+    <li>Pin ApplyFlow to the toolbar if you like, then open any job application page.</li>
+  </ol>
+  <p><img src="screenshots/load-unpacked-chrome.png" alt="chrome://extensions showing ApplyFlow loaded unpacked" style="max-width:100%;border:1px solid var(--line);border-radius:4px;"></p>
+
+  <h3>Firefox (temporary add-on)</h3>
+  <ol class="steps">
+    <li>Open <code>about:debugging#/runtime/this-firefox</code>.</li>
+    <li>Click <strong>Load Temporary Add-on…</strong> and select the
+      <code>manifest.json</code> inside the <code>applyflow</code> folder.</li>
+    <li>Note: temporary add-ons are removed when Firefox restarts. For permanent use, the
+      extension would need signing via <code>web-ext</code> / addons.mozilla.org.</li>
+  </ol>
+
+  <h2>Set up your profile</h2>
+  <ol class="steps">
+    <li>Click the ApplyFlow toolbar icon → <strong>Edit profile</strong> (or right-click the icon
+      → <em>Options</em>).</li>
+    <li>Fill in the <em>Personal</em>, <em>Education &amp; Position</em>, and <em>References</em>
+      tabs. Everything auto-saves locally.</li>
+    <li>Upload your documents on the <em>Documents</em> tab; check that the extracted text looks
+      right (paste text manually if PDF extraction is imperfect).</li>
+    <li>Write one or more cover-letter templates on the <em>Cover Letters</em> tab using
+      <code>{{position}}</code> / <code>{{department}}</code> / <code>{{university}}</code>.</li>
+    <li>Export a backup from <em>Export / Import</em> if you want one.</li>
+  </ol>
+
+  <h2>Honest limitations</h2>
+  <ul>
+    <li>Job portals change their markup frequently; site adapters are best-effort and may need
+      selector updates. The generic label matcher is the safety net.</li>
+    <li>Some portals block programmatic file uploads; in those cases ApplyFlow shows an
+      “attach manually” badge naming the exact document to upload.</li>
+    <li>Multi-step wizards (typical Workday) must be filled page by page — click
+      <em>Fill this page</em> again after each “Next”.</li>
+    <li>PDF text extraction is best-effort; you can always edit the stored text by hand in the
+      profile manager.</li>
+  </ul>
+
+  <h2>Source</h2>
+  <p>ApplyFlow is open source (MIT). See the repository’s <code>README.md</code> for development
+    and verification details.</p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ApplyFlow · Part of the academic-apps suite · All processing is local to your browser.
+      No tracking, no analytics, no remote code.</p>
+  </div>
+</footer>
+</body>
+</html>

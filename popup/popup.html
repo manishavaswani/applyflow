@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ApplyFlow</title>
+<link rel="stylesheet" href="../profile/profile.css">
+<style>
+  body { width: 340px; font-size: 14px; }
+  main { padding: 0.9rem 1rem 1rem; }
+  h1.popup-title {
+    font-family: var(--serif); font-size: 1.25rem; font-weight: 600; margin: 0 0 0.1rem;
+  }
+  h1.popup-title::after { content:""; display:block; width:2.2rem; height:2px; background:var(--accent); margin-top:0.35rem; }
+  .popup-head { border-bottom: 1px solid var(--line); background: var(--paper-raised); padding: 0.8rem 1rem 0.7rem; }
+  .adapter-line { font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.3rem; }
+  .adapter-line b { color: var(--accent-dark); }
+  .ctx-line { font-size: 0.8rem; color: var(--ink-soft); margin: 0.5rem 0 0.7rem; overflow-wrap: break-word; }
+  .btn { width: 100%; margin-bottom: 0.45rem; text-align: left; }
+  .btn.center { text-align: center; }
+  .row { display: flex; gap: 0.4rem; margin-bottom: 0.45rem; }
+  .row select { margin: 0; }
+  .row .btn { width: auto; white-space: nowrap; margin-bottom: 0; }
+  .status-line { font-size: 0.8rem; min-height: 1.1em; margin-top: 0.3rem; color: var(--ok); font-weight: 600; }
+  .status-line.error { color: var(--bad); }
+  .rule-note {
+    margin-top: 0.6rem; padding: 0.5rem 0.6rem; font-size: 0.74rem;
+    background: var(--paper); border-left: 3px solid var(--accent); color: var(--ink-soft);
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+<div class="popup-head">
+  <h1 class="popup-title">ApplyFlow</h1>
+  <div class="adapter-line" id="adapter-line">Checking page…</div>
+</div>
+<main>
+  <div class="ctx-line hidden" id="ctx-line"></div>
+  <button class="btn primary center" id="fill-btn" type="button">Fill this page</button>
+  <button class="btn center" id="edit-profile-btn" type="button">Edit profile</button>
+
+  <div class="row">
+    <select id="letter-select" title="Cover letter template"></select>
+    <button class="btn" id="copy-letter-btn" type="button">Copy letter</button>
+  </div>
+  <div class="row">
+    <select id="doc-select" title="Document"></select>
+    <button class="btn" id="copy-doc-btn" type="button">Copy text</button>
+  </div>
+
+  <div class="status-line" id="status-line"></div>
+  <div class="rule-note">Review-first: ApplyFlow fills and highlights fields but never submits
+    forms, and your data never leaves this browser.</div>
+</main>
+<script src="../shared/schema.js"></script>
+<script src="../shared/templates.js"></script>
+<script src="../shared/match.js"></script>
+<script src="../shared/storage.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>
